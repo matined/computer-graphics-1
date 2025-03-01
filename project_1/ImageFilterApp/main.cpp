@@ -1,4 +1,5 @@
 #include "gui/mainwindow.h"
+#include "gui/filtereditorwidget.h"
 
 #include <QApplication>
 

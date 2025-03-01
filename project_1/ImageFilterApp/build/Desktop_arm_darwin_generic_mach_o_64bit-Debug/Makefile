@@ -54,13 +54,19 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../../main.cpp \
 		../../gui/mainwindow.cpp \
+		../../gui/filtereditorwidget.cpp \
 		../../filters/functional_filters.cpp \
-		../../filters/convolution_filters.cpp moc_mainwindow.cpp
+		../../filters/convolution_filters.cpp \
+		../../filters/custom_filter.cpp moc_mainwindow.cpp \
+		moc_filtereditorwidget.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		filtereditorwidget.o \
 		functional_filters.o \
 		convolution_filters.o \
-		moc_mainwindow.o
+		custom_filter.o \
+		moc_mainwindow.o \
+		moc_filtereditorwidget.o
 DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/device_config.prf \
 		/opt/homebrew/Cellar/qt/6.8.2/share/qt/mkspecs/common/unix.conf \
@@ -426,11 +432,15 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/yacc.prf \
 		/opt/homebrew/share/qt/mkspecs/features/lex.prf \
 		../../../../ImageFilterApp.pro ../../gui/mainwindow.h \
+		../../gui/filtereditorwidget.h \
 		../../filters/functional_filters.h \
-		../../filters/convolution_filters.h ../../main.cpp \
+		../../filters/convolution_filters.h \
+		../../filters/custom_filter.h ../../main.cpp \
 		../../gui/mainwindow.cpp \
+		../../gui/filtereditorwidget.cpp \
 		../../filters/functional_filters.cpp \
-		../../filters/convolution_filters.cpp
+		../../filters/convolution_filters.cpp \
+		../../filters/custom_filter.cpp
 QMAKE_TARGET  = ImageFilterApp
 DESTDIR       = 
 TARGET        = ImageFilterApp.app/Contents/MacOS/ImageFilterApp
@@ -1217,8 +1227,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../gui/mainwindow.h ../../filters/functional_filters.h ../../filters/convolution_filters.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../gui/mainwindow.cpp ../../filters/functional_filters.cpp ../../filters/convolution_filters.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../gui/mainwindow.h ../../gui/filtereditorwidget.h ../../filters/functional_filters.h ../../filters/convolution_filters.h ../../filters/custom_filter.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../gui/mainwindow.cpp ../../gui/filtereditorwidget.cpp ../../filters/functional_filters.cpp ../../filters/convolution_filters.cpp ../../filters/custom_filter.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -1254,15 +1264,43 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=14.0 -Wall -Wextra -dM -E -o moc_predefs.h /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_filtereditorwidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_filtereditorwidget.cpp
 moc_mainwindow.cpp: ../../gui/mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QInputDialog \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qinputdialog.h \
+		../../filters/custom_filter.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPointF \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QMap \
+		/opt/homebrew/lib/QtCore.framework/Headers/qmap.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QStringList \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h \
 		moc_predefs.h \
 		/opt/homebrew/share/qt/libexec/moc
 	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include '/Users/matined/Documents/University/Computer Graphics/project_1/ImageFilterApp/build/Desktop_arm_darwin_generic_mach_o_64bit-Debug/moc_predefs.h' -I/opt/homebrew/share/qt/mkspecs/macx-clang -I'/Users/matined/Documents/University/Computer Graphics/project_1/ImageFilterApp' -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib ../../gui/mainwindow.h -o moc_mainwindow.cpp
+
+moc_filtereditorwidget.cpp: ../../gui/filtereditorwidget.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPoint \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QPainterPath \
+		/opt/homebrew/lib/QtGui.framework/Headers/qpainterpath.h \
+		moc_predefs.h \
+		/opt/homebrew/share/qt/libexec/moc
+	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include '/Users/matined/Documents/University/Computer Graphics/project_1/ImageFilterApp/build/Desktop_arm_darwin_generic_mach_o_64bit-Debug/moc_predefs.h' -I/opt/homebrew/share/qt/mkspecs/macx-clang -I'/Users/matined/Documents/University/Computer Graphics/project_1/ImageFilterApp' -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib ../../gui/filtereditorwidget.h -o moc_filtereditorwidget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1290,6 +1328,21 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 main.o: ../../main.cpp ../../gui/mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QInputDialog \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qinputdialog.h \
+		../../filters/custom_filter.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPointF \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QMap \
+		/opt/homebrew/lib/QtCore.framework/Headers/qmap.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QStringList \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QApplication \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -1297,17 +1350,85 @@ main.o: ../../main.cpp ../../gui/mainwindow.h \
 mainwindow.o: ../../gui/mainwindow.cpp ../../gui/mainwindow.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		ui_mainwindow.h
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QInputDialog \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qinputdialog.h \
+		../../filters/custom_filter.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPointF \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QMap \
+		/opt/homebrew/lib/QtCore.framework/Headers/qmap.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QStringList \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h \
+		ui_mainwindow.h \
+		../../gui/filtereditorwidget.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPoint \
+		/opt/homebrew/lib/QtGui.framework/Headers/QPainterPath \
+		/opt/homebrew/lib/QtGui.framework/Headers/qpainterpath.h \
+		../../filters/functional_filters.h \
+		../../filters/convolution_filters.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QFileDialog \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qfiledialog.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QPixmap \
+		/opt/homebrew/lib/QtGui.framework/Headers/qpixmap.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QFileInfo \
+		/opt/homebrew/lib/QtCore.framework/Headers/qfileinfo.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../gui/mainwindow.cpp
 
-functional_filters.o: ../../filters/functional_filters.cpp 
+filtereditorwidget.o: ../../gui/filtereditorwidget.cpp ../../gui/filtereditorwidget.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPoint \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QPainterPath \
+		/opt/homebrew/lib/QtGui.framework/Headers/qpainterpath.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QPainter \
+		/opt/homebrew/lib/QtGui.framework/Headers/qpainter.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filtereditorwidget.o ../../gui/filtereditorwidget.cpp
+
+functional_filters.o: ../../filters/functional_filters.cpp ../../filters/functional_filters.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o functional_filters.o ../../filters/functional_filters.cpp
 
-convolution_filters.o: ../../filters/convolution_filters.cpp 
+convolution_filters.o: ../../filters/convolution_filters.cpp ../../filters/convolution_filters.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o convolution_filters.o ../../filters/convolution_filters.cpp
+
+custom_filter.o: ../../filters/custom_filter.cpp ../../filters/custom_filter.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QPointF \
+		/opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QMap \
+		/opt/homebrew/lib/QtCore.framework/Headers/qmap.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QStringList \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o custom_filter.o ../../filters/custom_filter.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_filtereditorwidget.o: moc_filtereditorwidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_filtereditorwidget.o moc_filtereditorwidget.cpp
 
 ####### Install
 

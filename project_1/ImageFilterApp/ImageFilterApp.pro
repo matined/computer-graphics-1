@@ -11,13 +11,17 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     gui/mainwindow.cpp \
+    gui/filtereditorwidget.cpp \
     filters/functional_filters.cpp \
-    filters/convolution_filters.cpp
+    filters/convolution_filters.cpp \
+    filters/custom_filter.cpp
 
 HEADERS += \
     gui/mainwindow.h \
+    gui/filtereditorwidget.h \
     filters/functional_filters.h \
-    filters/convolution_filters.h
+    filters/convolution_filters.h \
+    filters/custom_filter.h
 
 FORMS += \
     gui/mainwindow.ui
