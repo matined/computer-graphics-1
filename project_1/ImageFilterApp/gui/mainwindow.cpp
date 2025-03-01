@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../filters/functional_filters.h"
+#include "../filters/convolution_filters.h"
 #include <QFileDialog>
 #include <QPixmap>
 #include <QFileInfo>
@@ -112,6 +113,16 @@ void MainWindow::on_applyButton_clicked()
         Filters::applyContrastFilter(filteredImage);
     else if (selectedFilter == "Gamma Correction")
         Filters::applyGammaFilter(filteredImage);
+    else if (selectedFilter == "Blur")
+        ConvolutionFilters::applyBlurFilter(filteredImage);
+    else if (selectedFilter == "Gaussian Blur")
+        ConvolutionFilters::applyGaussianBlurFilter(filteredImage);
+    else if (selectedFilter == "Sharpen")
+        ConvolutionFilters::applySharpenFilter(filteredImage);
+    else if (selectedFilter == "Edge Detection")
+        ConvolutionFilters::applyEdgeFilter(filteredImage);
+    else if (selectedFilter == "Emboss")
+        ConvolutionFilters::applyEmbossFilter(filteredImage);
     // Add more filter options here with else if statements
 
     // Update the display with the filtered image
