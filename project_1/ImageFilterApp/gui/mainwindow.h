@@ -33,6 +33,9 @@ private slots:
     void on_applyCustomFilter_clicked();
     void onFilterChanged();
     
+    // Median filter slot
+    void on_applyMedianFilter_clicked();
+    
 private:
     Ui::MainWindow *ui;
     QImage originalImage;

@@ -400,3 +400,26 @@ void MainWindow::applyCustomFilterToImage()
     // Update the display
     updateFilteredImage();
 }
+
+void MainWindow::on_applyMedianFilter_clicked()
+{
+    // Check if an image is loaded
+    if (originalImage.isNull()) {
+        QMessageBox::warning(this, tr("No Image"), tr("Please load an image first."));
+        return;
+    }
+    
+    // Get the kernel size from the spin box
+    int kernelSize = ui->medianFilterSpinBox->value();
+    
+    // Reset filteredImage to originalImage to remove any previously applied filters
+    filteredImage = originalImage.copy();
+    
+    // Apply the median filter with the specified kernel size
+    ConvolutionFilters::applyMedianFilter(filteredImage, kernelSize);
+    
+    // Update the display with the filtered image
+    updateFilteredImage();
+    
+    qDebug() << "Applied median filter with kernel size:" << kernelSize;
+}

@@ -61,6 +61,10 @@ namespace ConvolutionFilters {
     
     // Apply emboss filter using the EMBOSS_KERNEL
     void applyEmbossFilter(QImage &image);
+    
+    // Apply median filter with a specified kernel size
+    // Each RGB channel is processed independently
+    void applyMedianFilter(QImage &image, int kernelSize);
 }
 
 #endif // CONVOLUTION_FILTERS_H

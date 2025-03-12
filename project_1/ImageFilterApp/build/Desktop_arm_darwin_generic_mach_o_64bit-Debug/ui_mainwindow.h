@@ -17,6 +17,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -29,6 +30,8 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
+    QPushButton *loadButton;
+    QPushButton *resetButton;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_2;
     QComboBox *filterEditorSelection;
@@ -39,7 +42,6 @@ public:
     QPushButton *applyCustomFilter;
     QLabel *label;
     FilterEditorWidget *filterEditorWidget;
-    QPushButton *loadButton;
     QGridLayout *imagesGrid;
     QLabel *label_3;
     QPushButton *applyButton;
@@ -47,8 +49,11 @@ public:
     QLabel *filteredImageLabel;
     QComboBox *filterComboBox;
     QLabel *originalImageLabel;
-    QPushButton *resetButton;
     QPushButton *saveButton;
+    QGridLayout *gridLayout_2;
+    QPushButton *applyMedianFilter;
+    QLabel *label_4;
+    QSpinBox *medianFilterSpinBox;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -56,17 +61,27 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(842, 846);
+        MainWindow->resize(842, 900);
         QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMaximumSize(QSize(842, 870));
+        MainWindow->setMaximumSize(QSize(900, 900));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName("gridLayout");
+        loadButton = new QPushButton(centralwidget);
+        loadButton->setObjectName("loadButton");
+
+        gridLayout->addWidget(loadButton, 0, 0, 1, 1);
+
+        resetButton = new QPushButton(centralwidget);
+        resetButton->setObjectName("resetButton");
+
+        gridLayout->addWidget(resetButton, 0, 2, 1, 1);
+
         gridLayout_4 = new QGridLayout();
         gridLayout_4->setObjectName("gridLayout_4");
         verticalLayout_2 = new QVBoxLayout();
@@ -122,11 +137,6 @@ public:
 
         gridLayout->addLayout(gridLayout_4, 4, 0, 1, 3);
 
-        loadButton = new QPushButton(centralwidget);
-        loadButton->setObjectName("loadButton");
-
-        gridLayout->addWidget(loadButton, 0, 0, 1, 1);
-
         imagesGrid = new QGridLayout();
         imagesGrid->setObjectName("imagesGrid");
         label_3 = new QLabel(centralwidget);
@@ -178,20 +188,38 @@ public:
 
         gridLayout->addLayout(imagesGrid, 3, 0, 1, 3);
 
-        resetButton = new QPushButton(centralwidget);
-        resetButton->setObjectName("resetButton");
-
-        gridLayout->addWidget(resetButton, 0, 2, 1, 1);
-
         saveButton = new QPushButton(centralwidget);
         saveButton->setObjectName("saveButton");
 
         gridLayout->addWidget(saveButton, 0, 1, 1, 1);
 
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName("gridLayout_2");
+        applyMedianFilter = new QPushButton(centralwidget);
+        applyMedianFilter->setObjectName("applyMedianFilter");
+
+        gridLayout_2->addWidget(applyMedianFilter, 0, 2, 1, 1);
+
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName("label_4");
+
+        gridLayout_2->addWidget(label_4, 0, 0, 1, 1);
+
+        medianFilterSpinBox = new QSpinBox(centralwidget);
+        medianFilterSpinBox->setObjectName("medianFilterSpinBox");
+        medianFilterSpinBox->setMinimum(1);
+        medianFilterSpinBox->setMaximum(15);
+        medianFilterSpinBox->setSingleStep(2);
+
+        gridLayout_2->addWidget(medianFilterSpinBox, 0, 1, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_2, 5, 0, 1, 3);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 842, 24));
+        menubar->setGeometry(QRect(0, 0, 842, 38));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -205,6 +233,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Image Filter App", nullptr));
+        loadButton->setText(QCoreApplication::translate("MainWindow", "Load Image", nullptr));
+        resetButton->setText(QCoreApplication::translate("MainWindow", "Reset Image", nullptr));
         filterEditorSelection->setItemText(0, QCoreApplication::translate("MainWindow", "Inversion", nullptr));
         filterEditorSelection->setItemText(1, QCoreApplication::translate("MainWindow", "Brightness Correction", nullptr));
         filterEditorSelection->setItemText(2, QCoreApplication::translate("MainWindow", "Contrast Enhancement", nullptr));
@@ -215,7 +245,6 @@ public:
         saveCustomFilter->setText(QCoreApplication::translate("MainWindow", "Save Filter", nullptr));
         applyCustomFilter->setText(QCoreApplication::translate("MainWindow", "Apply to Image", nullptr));
         label->setText(QString());
-        loadButton->setText(QCoreApplication::translate("MainWindow", "Load Image", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "Filtered Image", nullptr));
         applyButton->setText(QCoreApplication::translate("MainWindow", "Apply Filter", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Original Image", nullptr));
@@ -231,8 +260,9 @@ public:
         filterComboBox->setItemText(8, QCoreApplication::translate("MainWindow", "Emboss", nullptr));
 
         originalImageLabel->setText(QString());
-        resetButton->setText(QCoreApplication::translate("MainWindow", "Reset Image", nullptr));
         saveButton->setText(QCoreApplication::translate("MainWindow", "Save Image", nullptr));
+        applyMedianFilter->setText(QCoreApplication::translate("MainWindow", "Apply Median Filter", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Median Filter:", nullptr));
     } // retranslateUi
 
 };
