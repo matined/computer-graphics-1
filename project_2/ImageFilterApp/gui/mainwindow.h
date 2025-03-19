@@ -36,6 +36,9 @@ private slots:
     // Dithering slots
     void on_applyDithering_clicked();
     
+    // Quantization slots
+    void on_applyQuantization_clicked();
+    
 private:
     Ui::MainWindow *ui;
     QImage originalImage;

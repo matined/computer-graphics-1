@@ -14,14 +14,16 @@ SOURCES += \
     gui/filtereditorwidget.cpp \
     filters/functional_filters.cpp \
     filters/convolution_filters.cpp \
-    filters/custom_filter.cpp
+    filters/custom_filter.cpp \
+    filters/octree_quantizer.cpp
 
 HEADERS += \
     gui/mainwindow.h \
     gui/filtereditorwidget.h \
     filters/functional_filters.h \
     filters/convolution_filters.h \
-    filters/custom_filter.h
+    filters/custom_filter.h \
+    filters/octree_quantizer.h
 
 FORMS += \
     gui/mainwindow.ui

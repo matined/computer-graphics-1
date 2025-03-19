@@ -230,6 +230,7 @@ public:
         quantizationMaximumColors = new QSpinBox(centralwidget);
         quantizationMaximumColors->setObjectName("quantizationMaximumColors");
         quantizationMaximumColors->setMinimum(2);
+        quantizationMaximumColors->setMaximum(10000);
 
         gridLayout_3->addWidget(quantizationMaximumColors, 1, 1, 1, 1);
 

@@ -57,7 +57,8 @@ SOURCES       = ../../main.cpp \
 		../../gui/filtereditorwidget.cpp \
 		../../filters/functional_filters.cpp \
 		../../filters/convolution_filters.cpp \
-		../../filters/custom_filter.cpp moc_mainwindow.cpp \
+		../../filters/custom_filter.cpp \
+		../../filters/octree_quantizer.cpp moc_mainwindow.cpp \
 		moc_filtereditorwidget.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
@@ -65,6 +66,7 @@ OBJECTS       = main.o \
 		functional_filters.o \
 		convolution_filters.o \
 		custom_filter.o \
+		octree_quantizer.o \
 		moc_mainwindow.o \
 		moc_filtereditorwidget.o
 DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
@@ -435,12 +437,14 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		../../gui/filtereditorwidget.h \
 		../../filters/functional_filters.h \
 		../../filters/convolution_filters.h \
-		../../filters/custom_filter.h ../../main.cpp \
+		../../filters/custom_filter.h \
+		../../filters/octree_quantizer.h ../../main.cpp \
 		../../gui/mainwindow.cpp \
 		../../gui/filtereditorwidget.cpp \
 		../../filters/functional_filters.cpp \
 		../../filters/convolution_filters.cpp \
-		../../filters/custom_filter.cpp
+		../../filters/custom_filter.cpp \
+		../../filters/octree_quantizer.cpp
 QMAKE_TARGET  = ImageFilterApp
 DESTDIR       = 
 TARGET        = ImageFilterApp.app/Contents/MacOS/ImageFilterApp
@@ -1227,8 +1231,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../gui/mainwindow.h ../../gui/filtereditorwidget.h ../../filters/functional_filters.h ../../filters/convolution_filters.h ../../filters/custom_filter.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../gui/mainwindow.cpp ../../gui/filtereditorwidget.cpp ../../filters/functional_filters.cpp ../../filters/convolution_filters.cpp ../../filters/custom_filter.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../gui/mainwindow.h ../../gui/filtereditorwidget.h ../../filters/functional_filters.h ../../filters/convolution_filters.h ../../filters/custom_filter.h ../../filters/octree_quantizer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../gui/mainwindow.cpp ../../gui/filtereditorwidget.cpp ../../filters/functional_filters.cpp ../../filters/convolution_filters.cpp ../../filters/custom_filter.cpp ../../filters/octree_quantizer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -1389,6 +1393,9 @@ mainwindow.o: ../../gui/mainwindow.cpp ../../gui/mainwindow.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/qpainterpath.h \
 		../../filters/functional_filters.h \
 		../../filters/convolution_filters.h \
+		../../filters/octree_quantizer.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QColor \
+		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QFileDialog \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qfiledialog.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/QPixmap \
@@ -1440,6 +1447,17 @@ custom_filter.o: ../../filters/custom_filter.cpp ../../filters/custom_filter.h \
 		/opt/homebrew/lib/QtCore.framework/Headers/QStringList \
 		/opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o custom_filter.o ../../filters/custom_filter.cpp
+
+octree_quantizer.o: ../../filters/octree_quantizer.cpp ../../filters/octree_quantizer.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QImage \
+		/opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QColor \
+		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QDebug \
+		/opt/homebrew/lib/QtCore.framework/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o octree_quantizer.o ../../filters/octree_quantizer.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

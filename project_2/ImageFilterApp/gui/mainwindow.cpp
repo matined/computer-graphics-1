@@ -4,6 +4,7 @@
 #include "../filters/functional_filters.h"
 #include "../filters/convolution_filters.h"
 #include "../filters/custom_filter.h"
+#include "../filters/octree_quantizer.h"
 #include <QFileDialog>
 #include <QPixmap>
 #include <QFileInfo>
@@ -411,6 +412,31 @@ void MainWindow::on_applyDithering_clicked()
     
     // Apply the random dithering filter
     Filters::applyRandomDitheringFilter(filteredImage, redColors, greenColors, blueColors);
+    
+    // Update the display with the filtered image
+    updateFilteredImage();
+}
+
+void MainWindow::on_applyQuantization_clicked()
+{
+    // Check if an image is loaded
+    if (originalImage.isNull()) {
+        QMessageBox::warning(this, tr("No Image"), tr("Please load an image first."));
+        return;
+    }
+    
+    // Reset filteredImage to originalImage to remove any previously applied filters
+    filteredImage = originalImage.copy();
+    
+    // Get the maximum number of colors from the spin box
+    int maxColors = ui->quantizationMaximumColors->value();
+    
+    // Ensure maxColors is valid (at least 2, at most 256)
+    maxColors = std::max(2, std::min(256, maxColors));
+    
+    // Create an octree quantizer and apply it to the image
+    OctreeQuantizer quantizer;
+    quantizer.quantize(filteredImage, maxColors);
     
     // Update the display with the filtered image
     updateFilteredImage();
