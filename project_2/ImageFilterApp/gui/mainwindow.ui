@@ -262,14 +262,14 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_5">
+        <item row="1" column="4">
+         <widget class="QPushButton" name="applyQuantization">
           <property name="text">
-           <string>Maximum number of colors:</string>
+           <string>Apply Quantization</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="1" column="3">
          <widget class="QSpinBox" name="quantizationMaximumColors">
           <property name="minimum">
            <number>2</number>
@@ -280,9 +280,16 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QPushButton" name="applyQuantization">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Apply Quantization</string>
+           <string>Maximum number of colors:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="convertToGreyscale">
+          <property name="text">
+           <string>Convert to Greyscale</string>
           </property>
          </widget>
         </item>

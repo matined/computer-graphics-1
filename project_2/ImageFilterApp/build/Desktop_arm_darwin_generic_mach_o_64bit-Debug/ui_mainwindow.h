@@ -56,9 +56,10 @@ public:
     QSpinBox *ditheringBlueColorsSpinBox;
     QLabel *label_4;
     QPushButton *applyDithering;
-    QLabel *label_5;
-    QSpinBox *quantizationMaximumColors;
     QPushButton *applyQuantization;
+    QSpinBox *quantizationMaximumColors;
+    QLabel *label_5;
+    QPushButton *convertToGreyscale;
     QPushButton *saveButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -222,22 +223,27 @@ public:
 
         gridLayout_3->addWidget(applyDithering, 0, 4, 1, 1);
 
-        label_5 = new QLabel(centralwidget);
-        label_5->setObjectName("label_5");
+        applyQuantization = new QPushButton(centralwidget);
+        applyQuantization->setObjectName("applyQuantization");
 
-        gridLayout_3->addWidget(label_5, 1, 0, 1, 1);
+        gridLayout_3->addWidget(applyQuantization, 1, 4, 1, 1);
 
         quantizationMaximumColors = new QSpinBox(centralwidget);
         quantizationMaximumColors->setObjectName("quantizationMaximumColors");
         quantizationMaximumColors->setMinimum(2);
         quantizationMaximumColors->setMaximum(10000);
 
-        gridLayout_3->addWidget(quantizationMaximumColors, 1, 1, 1, 1);
+        gridLayout_3->addWidget(quantizationMaximumColors, 1, 3, 1, 1);
 
-        applyQuantization = new QPushButton(centralwidget);
-        applyQuantization->setObjectName("applyQuantization");
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName("label_5");
 
-        gridLayout_3->addWidget(applyQuantization, 1, 2, 1, 1);
+        gridLayout_3->addWidget(label_5, 1, 2, 1, 1);
+
+        convertToGreyscale = new QPushButton(centralwidget);
+        convertToGreyscale->setObjectName("convertToGreyscale");
+
+        gridLayout_3->addWidget(convertToGreyscale, 1, 0, 1, 1);
 
 
         gridLayout_2->addLayout(gridLayout_3, 3, 1, 1, 1);
@@ -296,8 +302,9 @@ public:
         resetButton->setText(QCoreApplication::translate("MainWindow", "Reset Image", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Colors per RGB channel:", nullptr));
         applyDithering->setText(QCoreApplication::translate("MainWindow", "Apply Dithering", nullptr));
-        label_5->setText(QCoreApplication::translate("MainWindow", "Maximum number of colors:", nullptr));
         applyQuantization->setText(QCoreApplication::translate("MainWindow", "Apply Quantization", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "Maximum number of colors:", nullptr));
+        convertToGreyscale->setText(QCoreApplication::translate("MainWindow", "Convert to Greyscale", nullptr));
         saveButton->setText(QCoreApplication::translate("MainWindow", "Save Image", nullptr));
     } // retranslateUi
 
